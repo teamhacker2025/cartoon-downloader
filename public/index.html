@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CartoonPorn Video Downloader</title>
     <style>
         * {
@@ -12,8 +12,8 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -22,242 +22,156 @@
         }
         
         .container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
             width: 100%;
-            padding: 2rem;
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
         
         h1 {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
+            color: #333;
             text-align: center;
+            margin-bottom: 10px;
         }
         
-        .subtitle {
+        .sub {
             text-align: center;
             color: #666;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-        }
-        
-        .input-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        label {
-            display: block;
-            color: #333;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            margin-bottom: 30px;
+            font-size: 14px;
         }
         
         input {
             width: 100%;
-            padding: 14px 16px;
-            font-size: 0.9rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            transition: all 0.3s;
-            font-family: monospace;
-        }
-        
-        input:focus {
-            outline: none;
-            border-color: #2a5298;
-            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 15px;
         }
         
         button {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 12px;
+            background: #667eea;
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
+            border-radius: 10px;
+            font-size: 16px;
             cursor: pointer;
-            transition: all 0.3s;
+            font-weight: bold;
         }
         
-        button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(30, 60, 114, 0.4);
+        button:hover {
+            background: #5a67d8;
         }
         
         button:disabled {
-            opacity: 0.6;
+            background: #ccc;
             cursor: not-allowed;
         }
         
         .result {
-            margin-top: 2rem;
-            padding: 1rem;
-            border-radius: 12px;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
             display: none;
         }
         
         .result.show {
             display: block;
-            animation: slideIn 0.3s ease;
-        }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .download-btn {
-            display: inline-block;
-            width: 100%;
-            background: #28a745;
-            color: white;
-            text-decoration: none;
-            padding: 14px;
-            border-radius: 12px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-top: 10px;
-            transition: all 0.2s;
-        }
-        
-        .download-btn:hover {
-            background: #218838;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
-        }
-        
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 12px;
-            border-radius: 10px;
-            border-left: 4px solid #dc3545;
         }
         
         .success {
             background: #d4edda;
             color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .download-link {
+            display: block;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
             padding: 12px;
+            text-align: center;
             border-radius: 10px;
-            border-left: 4px solid #28a745;
-            margin-bottom: 15px;
+            margin-top: 10px;
+            font-weight: bold;
         }
         
         .loader {
             display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 3px solid rgba(255,255,255,0.3);
+            width: 16px;
+            height: 16px;
+            border: 2px solid white;
             border-radius: 50%;
-            border-top-color: white;
+            border-top-color: transparent;
             animation: spin 0.6s linear infinite;
             margin-right: 8px;
-            vertical-align: middle;
         }
         
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
         
-        .info-box {
-            margin-top: 1rem;
-            padding: 12px;
-            background: #e7f3ff;
+        .info {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f0f0f0;
             border-radius: 10px;
-            font-size: 0.8rem;
-            color: #004085;
-        }
-        
-        .url-preview {
-            font-size: 0.75rem;
-            word-break: break-all;
+            font-size: 12px;
             color: #666;
-            margin-top: 10px;
-            padding: 8px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            font-family: monospace;
-        }
-        
-        .example {
-            font-size: 0.75rem;
-            color: #888;
-            margin-top: 5px;
-        }
-        
-        @media (max-width: 600px) {
-            .container {
-                padding: 1.5rem;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🎬 CartoonPorn Downloader</h1>
-        <div class="subtitle">Download any video directly to your device</div>
+        <div class="sub">Download any video directly</div>
         
-        <div class="input-group">
-            <label>🔗 Paste video URL from cartoonporn.com</label>
-            <input type="text" id="videoUrl" placeholder="https://www.cartoonporn.com/videos/15523/hump-bang-720p-50fps/">
-            <div class="example">Example: https://www.cartoonporn.com/videos/15523/hump-bang-720p-50fps/</div>
-        </div>
-        
-        <button id="fetchBtn">🚀 Extract Download Link</button>
+        <input type="text" id="urlInput" placeholder="Paste cartoonporn.com video URL here">
+        <button id="downloadBtn">Get Download Link</button>
         
         <div id="result" class="result"></div>
         
-        <div class="info-box">
-            💡 <strong>How to use:</strong><br>
-            1. Copy any video URL from cartoonporn.com<br>
-            2. Paste it above and click extract<br>
-            3. Click the download button to save the video<br>
-            4. On mobile: Downloaded videos go to your Downloads folder
+        <div class="info">
+            💡 How to use:<br>
+            1. Go to cartoonporn.com and copy a video URL<br>
+            2. Paste it above and click the button<br>
+            3. Click the download button to save the video
         </div>
     </div>
-
+    
     <script>
-        const fetchBtn = document.getElementById('fetchBtn');
-        const videoUrlInput = document.getElementById('videoUrl');
+        const urlInput = document.getElementById('urlInput');
+        const downloadBtn = document.getElementById('downloadBtn');
         const resultDiv = document.getElementById('result');
         
-        fetchBtn.addEventListener('click', async () => {
-            let videoUrl = videoUrlInput.value.trim();
+        downloadBtn.addEventListener('click', async () => {
+            const videoUrl = urlInput.value.trim();
             
             if (!videoUrl) {
                 showError('Please enter a video URL');
                 return;
             }
             
-            if (!videoUrl.includes('cartoonporn.com/videos/')) {
-                showError('URL must be from cartoonporn.com/videos/...');
+            if (!videoUrl.includes('cartoonporn.com')) {
+                showError('Please enter a valid cartoonporn.com URL');
                 return;
             }
             
             // Show loading
-            fetchBtn.disabled = true;
-            fetchBtn.innerHTML = '<span class="loader"></span> Extracting video link...';
+            downloadBtn.disabled = true;
+            downloadBtn.innerHTML = '<span class="loader"></span> Processing...';
             resultDiv.classList.remove('show');
             
             try {
@@ -269,57 +183,37 @@
                     body: JSON.stringify({ videoUrl: videoUrl })
                 });
                 
-                // Check if response is OK
-                if (!response.ok) {
-                    const text = await response.text();
-                    throw new Error(`Server error: ${response.status}`);
-                }
-                
                 const data = await response.json();
                 
-                if (!data.success || !data.downloadUrl) {
-                    throw new Error(data.error || 'Failed to extract download link');
+                if (data.error) {
+                    showError(data.error);
+                } else if (data.success && data.url) {
+                    resultDiv.innerHTML = `
+                        <div class="success show">
+                            ✅ Video link found!
+                            <a href="${data.url}" class="download-link" download>⬇️ Click to Download Video</a>
+                            <small style="display: block; margin-top: 10px; word-break: break-all;">${data.url}</small>
+                        </div>
+                    `;
+                    resultDiv.classList.add('show');
+                } else {
+                    showError('Could not extract download link');
                 }
-                
-                // Show success with download button
-                resultDiv.innerHTML = `
-                    <div class="success">✅ Success! Video link extracted.</div>
-                    <a href="${data.downloadUrl}" class="download-btn" download>⬇️ Download Video Now</a>
-                    <div class="url-preview">🔗 Direct link: ${data.downloadUrl.substring(0, 100)}${data.downloadUrl.length > 100 ? '...' : ''}</div>
-                    <div style="font-size: 0.8rem; margin-top: 12px; color: #666; text-align: center;">
-                        💾 Video will be saved to your device. On mobile, check your "Downloads" folder.
-                    </div>
-                `;
-                resultDiv.classList.add('show');
-                
             } catch (error) {
-                console.error('Error:', error);
-                showError(error.message || 'Failed to process request. Please try again.');
+                showError('Network error: ' + error.message);
             } finally {
-                fetchBtn.disabled = false;
-                fetchBtn.innerHTML = '🚀 Extract Download Link';
+                downloadBtn.disabled = false;
+                downloadBtn.innerHTML = 'Get Download Link';
             }
         });
         
         function showError(message) {
-            resultDiv.innerHTML = `
-                <div class="error">
-                    ❌ ${message}
-                    <br><br>
-                    <strong>Troubleshooting tips:</strong><br>
-                    • Make sure the URL is correct<br>
-                    • Check if the video still exists<br>
-                    • Try a different video<br>
-                    • The site might be temporarily unavailable
-                </div>
-            `;
+            resultDiv.innerHTML = `<div class="error show">❌ ${message}</div>`;
             resultDiv.classList.add('show');
         }
         
-        // Add example URL on page load
-        if (!videoUrlInput.value) {
-            videoUrlInput.value = 'https://www.cartoonporn.com/videos/15523/hump-bang-720p-50fps/';
-        }
+        // Add example URL
+        urlInput.value = 'https://www.cartoonporn.com/videos/15523/hump-bang-720p-50fps/';
     </script>
 </body>
 </html>
