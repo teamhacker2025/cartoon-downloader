@@ -3,7 +3,6 @@
     "version": "1.0.0",
     "description": "Download videos from cartoonporn.com",
     "dependencies": {
-        "axios": "^1.6.2",
-        "cheerio": "^1.0.0-rc.12"
+        "axios": "^1.6.2"
     }
 }
