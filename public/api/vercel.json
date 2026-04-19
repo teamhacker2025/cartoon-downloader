@@ -1,0 +1,13 @@
+{
+    "functions": {
+        "api/get-download-url.js": {
+            "maxDuration": 30
+        }
+    },
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/public/index.html"
+        }
+    ]
+}
