@@ -1,0 +1,8 @@
+{
+    "functions": {
+        "api/get-download-url.js": {
+            "maxDuration": 60,
+            "memory": 1024
+        }
+    }
+}
